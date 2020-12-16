@@ -1,29 +1,28 @@
 <template>
-<body>
   <div id="app">
     <div class="header">
       <img class="logo" src="./assets/logo-app.svg" alt="app logo">
 
       <div class="menu">
-        <a href="" target="">
+        <a v-on:click="getAll">
         <h1>Productos</h1>
         </a>
 
-        <a href="" target="">
-          <h1>Iniciar Sesion</h1>
+        <a v-on:click="init" v-if="is_auth">
+          <h1>Mi informacion</h1>
           </a>
-          </div>
-      </div>
-
-      <div class="main-component">
-        <router-view></router-view>
         </div>
+    </div>
 
-        <div class="footer">
-          <h1>WinNow</h1>
-          </div>
+    <div class="main-component">
+        <router-view></router-view>
+    </div>
+
+    <div class="footer">
+      <h1>WishNow</h1>
+    </div>
+
   </div>
-</body>
 </template>
 
 <script>
@@ -31,7 +30,32 @@
 
 export default {
   name: 'App',
-}
+  components: {}, 
+  data: function(){
+    return {
+      is_auth: localStorage.getItem('isAuth') || false
+    }
+  }, 
+  
+   methods: {
+     
+     init: function(){
+       if(this.route.name!="customer"){
+         let username = localStorage.getItem('current_username')
+         this.$router.push({name: "customer", params:{username:username}})
+       }
+     }
+     
+   },
+   beforeCreate: function(){
+     localStorage.setItem("current_username", "nico")
+     localStorage.setItem('isAuth', true)
+
+     this.$router.push({name:"customer",params:{username:'nico'}})
+     }
+};
+  
+
 </script>
 
 <style>
@@ -54,16 +78,12 @@ export default {
         --red-color: #FF0000;
     }
     
-    body {
+    body {margin: 0 0 0 0;
         font-family: 'Lato', sans-serif;
+        background-image: url(assets\ecommerce-background.svg);
     }
     
-    #app{
-      background-image: url(assets\ecommerce-background.svg);
-    
-      height: 100vh; 
-      z-index: 1;
-    }
+  
 
     .header{
       display: flex; 
@@ -71,7 +91,7 @@ export default {
       align-items: center;
       flex-wrap: wrap;
       width: 100%;
-      height: 20%;
+      height: 20vh;
       /*background-color: var(--red-color);*/
       padding-left: 3%;
       padding-right: 3%;
@@ -82,23 +102,25 @@ export default {
       height: auto;
     }
 
-    .menu {
+    .header .menu {
       display: flex; 
       flex-wrap:wrap;
     }
-    a{
+    .header .menu a{
       text-decoration: none;
     }
-    .menu h1{
+    .header .menu a h1{
       color: var(--red-color);
       padding: 20px;
     }
     .main-component{
-      height: 70%;
+      height: 70vh;
+      margin: 0%;
+      padding: 0%;
     }
     .footer {
       width: 100%;
-      height: 10%;
+      height: 10vh;
       background-color: var(--red-color);
       display: flex; 
       justify-content: center;
