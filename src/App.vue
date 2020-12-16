@@ -5,7 +5,7 @@
 
       <div class="menu">
         <a v-on:click="getAll">
-        <h1>Productos</h1>
+        <h1>Productos{{count}}</h1>
         </a>
 
         <a v-on:click="init" v-if="is_auth">
@@ -33,7 +33,8 @@ export default {
   components: {}, 
   data: function(){
     return {
-      is_auth: localStorage.getItem('isAuth') || false
+      is_auth: localStorage.getItem('isAuth') || false,
+      count:0
     }
   }, 
   
@@ -44,6 +45,13 @@ export default {
          let username = localStorage.getItem('current_username')
          this.$router.push({name: "customer", params:{username:username}})
        }
+     },
+     getAll: function(){
+       this.count++;
+       if(this.route.name!="products"){
+         console.log(this.$router.push({name:"products"}))
+         this.$router.push({name:"products"})
+       }
      }
      
    },
@@ -52,6 +60,7 @@ export default {
      localStorage.setItem('isAuth', true)
 
      this.$router.push({name:"customer",params:{username:'nico'}})
+     //this.$router.push({name:"products"})
      }
 };
   
