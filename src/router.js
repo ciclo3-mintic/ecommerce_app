@@ -1,6 +1,7 @@
 import vueRouter from 'vue-router'
 import Customer from './components/Customer'
 import Products from './components/Products'
+import SetCustomer from './components/SetCustomer'
 import App from './App'
 
 const router = new vueRouter({
@@ -20,6 +21,11 @@ const router = new vueRouter({
             path: '/products',
             name: 'products',
             component: Products
+        },
+        {
+            path: '/customer/update/:username',
+            name: 'setcustomer',
+            component: SetCustomer
         }
     ]
 })

@@ -4,16 +4,15 @@
       <img class="logo" src="./assets/logo-app.svg" alt="app logo">
 
       <div class="menu">
-        <a v-on:click="getAll">
-        <h1>Productos{{count}}</h1>
-        </a>
+        <button v-on:click="getAll" type="button" class="btn btn-outline-danger btn-header">
+        Productos
+        </button>
 
-        <a v-on:click="init" v-if="is_auth">
-          <h1>Mi informacion</h1>
-          </a>
+        <button v-on:click="init" v-if="is_auth" type="button" class="btn btn-outline-danger btn-header">
+          Mi Informacion
+        </button>
         </div>
     </div>
-
     <div class="main-component">
         <router-view></router-view>
     </div>
@@ -34,31 +33,30 @@ export default {
   data: function(){
     return {
       is_auth: localStorage.getItem('isAuth') || false,
-      count:0
+      //count:0
     }
   }, 
   
    methods: {
      
      init: function(){
-       if(this.route.name!="customer"){
-         let username = localStorage.getItem('current_username')
-         this.$router.push({name: "customer", params:{username:username}})
-       }
+       //if(this.route.name!="customer"){
+         let username = localStorage.getItem('current_username');
+         this.$router.push({name: "customer", params:{username:username}});
+       //}
      },
      getAll: function(){
-       this.count++;
-       if(this.route.name!="products"){
-         console.log(this.$router.push({name:"products"}))
+       //if(this.route.name!="products"){
+         //this.count++;
+         //console.log(this.$router.push({name:"products"}))
          this.$router.push({name:"products"})
-       }
+       //}
      }
      
    },
    beforeCreate: function(){
      localStorage.setItem("current_username", "nico")
      localStorage.setItem('isAuth', true)
-
      this.$router.push({name:"customer",params:{username:'nico'}})
      //this.$router.push({name:"products"})
      }
@@ -115,13 +113,10 @@ export default {
       display: flex; 
       flex-wrap:wrap;
     }
-    .header .menu a{
-      text-decoration: none;
+    .btn-header{
+      margin: 20px;
     }
-    .header .menu a h1{
-      color: var(--red-color);
-      padding: 20px;
-    }
+    
     .main-component{
       height: 70vh;
       margin: 0%;
