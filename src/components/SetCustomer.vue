@@ -42,7 +42,7 @@
         methods: {
             putcustomer: function(){
             axios
-                .put("https://new-ecommerce-api.herokuapp.com/customer/transaction",this.form)
+                .put("https://new-ecommerce-api.herokuapp.com/customer/transaction/",this.form)
                 .then((result) => {
                     
                 })
