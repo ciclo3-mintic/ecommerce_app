@@ -14,7 +14,7 @@
 <script>
     import axios from "axios";
     export default {
-        name: "User",
+        name: "Customer",
         data:function(){
             return {
                 username: "none",

@@ -2,6 +2,7 @@ import vueRouter from 'vue-router'
 import Customer from './components/Customer'
 import Products from './components/Products'
 import SetCustomer from './components/SetCustomer'
+import CustomerAuth from './components/CustomerAuth'
 import App from './App'
 
 const router = new vueRouter({
@@ -26,6 +27,11 @@ const router = new vueRouter({
             path: '/customer/update/:username',
             name: 'setcustomer',
             component: SetCustomer
+        },
+        {
+            path: '/customer/auth',
+            name: "customerauth",
+            component: CustomerAuth
         }
     ]
 })

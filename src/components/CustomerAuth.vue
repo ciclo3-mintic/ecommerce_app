@@ -4,57 +4,52 @@
     <div id="container">
         <div id=right> 
             <div class="entrada">
-                <label for="name">Digite su contraseña para validar los cambios</label>
+                <label for="name">Username</label>
+                <input type="text" class="form-control" id="name" v-model="form.username">
+            </div>
+            <div class="entrada">
+                <label for="name">Contraseña</label>
                 <input type="text" class="form-control" id="name" v-model="form.password">
             </div>
             </div>
+            
         </div>
-        <div id=left>
-            <div class="entrada">
-                <label for="name">Direccion</label>
-                <input type="text" class="form-control" id="name" v-model="form.address">
-            </div>
-            <div class="entrada">
-                <label for="name">Celular</label>
-                <input type="text" class="form-control" id="name" v-model="form.numberPhone">
-            </div>
-        </div> 
-        <button v-on:click="putcustomer" type="button" class="btn btn-outline-danger">Actualizar</button>
+        <button type="submit" class="btn btn-outline-danger entrada">Iniciar Sesion</button>
+        
     </form>
     </div>
 </template>
 
-
 <script>
     import axios from "axios";
     export default {
-        name: "SetCustomer",
+        name: "CustomerAuth",
         data:function(){
             return {
                 form:{
-                username: localStorage.getItem('current_username'),
-                password: "",
-                address: "", 
-                numberPhone:0,
+                    username: "",
+                    password: ""
                 }, 
             }
         },
         methods: {
-            putcustomer: function(){
+            submitForm: function(){
+                var self = this
             axios
-                .put("https://new-ecommerce-api.herokuapp.com/customer/transaction/",this.form)
+                .post("https://new-ecommerce-api.herokuapp.com/customer/auth/",self.form)
                 .then((result) => {
-                    
+                    //alert("Autenticación Exitosa"+self.form.username);
+                    self.$emit('logeado', self.form.username)
                 })
                 .catch((error) => {
-                    //alert("ERROR Servidor");
-                    });
+                    if (error.response.status == "404")
+                        alert("ERROR 404: Usuario no encontrado.");
+                    
+                    if (error.response.status == "403")
+                        alert("ERROR 403: Contraseña Erronea.");  
+                });
         },
       },
-        created: function(){
-            this.form["username"]=this.this.$route.params.username; 
-            let self = this; 
-        }
     }
 </script>
 

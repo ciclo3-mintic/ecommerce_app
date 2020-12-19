@@ -42,7 +42,7 @@
     import 'bootstrap';
     import axios from "axios";
     export default {
-        name: "User",
+        name: "Products",
         data:function(){
             return {
                 inventario: []

@@ -11,10 +11,14 @@
         <button v-on:click="init" v-if="is_auth" type="button" class="btn btn-outline-danger btn-header">
           Mi Informacion
         </button>
+
+        <button v-on:click="closeSession" v-if="is_auth" type="button" class="btn btn-outline-danger btn-header">
+          Cerrar Sesion
+        </button>
         </div>
     </div>
     <div class="main-component">
-        <router-view></router-view>
+        <router-view v-on:logeado="logIn"></router-view>
     </div>
 
     <div class="footer">
@@ -38,7 +42,21 @@ export default {
   }, 
   
    methods: {
-     
+
+     // esto nos lleva a user_auth si no esta autenticado, en caso contrario al usuario actual
+     updateAuth: function(){
+      var self = this
+      self.is_auth  = localStorage.getItem('isAuth') || false
+
+      if(self.is_auth == false)
+        self.$router.push({name: "customerauth"})
+
+      else{
+        let username = localStorage.getItem("current_username")
+        self.$router.push({name: "customer", params:{ username: username }})
+      }  
+    },
+
      init: function(){
        //if(this.route.name!="customer"){
          let username = localStorage.getItem('current_username');
@@ -51,14 +69,28 @@ export default {
          //console.log(this.$router.push({name:"products"}))
          this.$router.push({name:"products"})
        //}
+     }, 
+
+     closeSession: function(){
+        localStorage.removeItem('isAuth')
+        localStorage.removeItem('current_username')
+        this.updateAuth()
+     },
+
+     // nos lleva al metodo de update 
+     logIn: function(username){
+       
+       localStorage.setItem('current_username',username)
+       localStorage.setItem('isAuth', true)
+       this.updateAuth()
      }
      
    },
-   beforeCreate: function(){
-     localStorage.setItem("current_username", "nico")
-     localStorage.setItem('isAuth', true)
-     this.$router.push({name:"customer",params:{username:'nico'}})
-     //this.$router.push({name:"products"})
+
+   // esto sucede de inicio, llevandonos al al root, y ademas haciendo el userupdate, por lo q nos llevara a userauth
+   created: function(){
+     this.$router.push({name:"root"})
+     this.updateAuth()
      }
 };
   
